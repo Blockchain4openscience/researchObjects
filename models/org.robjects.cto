@@ -1,0 +1,59 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Write your model definitions here
+ */
+
+namespace org.robjects
+
+participant author identified by orcid {
+  o String orcid
+  o String name
+  o String uri
+}
+
+asset RObject identified by id{
+  o String id
+  o String IPFSHash
+  o String previousRO
+  o Boolean isEvolved default=false
+  o resource[] res optional
+  o String context default='http://w3id.org/bundle/context'
+  --> author createdBy
+}
+
+transaction addResource{
+  --> author researcher
+  --> RObject Ro
+  o resource[] newRes
+}
+
+concept resource{
+  o String uri
+  o String IPFSHash
+  o resCat resourceCat
+  --> author owner
+  o bundle bundelAs
+}
+
+concept bundle{
+  o String uri
+}
+enum resCat{
+  o input
+  o process
+  o result
+}
+
